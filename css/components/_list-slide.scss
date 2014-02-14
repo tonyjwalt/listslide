@@ -1,0 +1,52 @@
+$ShadowSize: 80px;
+
+.listslide {
+  overflow: hidden;
+  min-width: 300px;
+  width: 100%;
+  position: relative;
+  white-space: nowrap;
+  padding-top:20px;
+  &:before, &:after {
+    display: block;
+    content: " ";
+    top: 0;
+    bottom: 0;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+  }
+  &:before {
+    left: 0;
+    @include shadow(0, 0, $ShadowSize, $ShadowSize, #fff);
+  }
+  &:after {
+    right: 0;
+    @include shadow(0, 0, $ShadowSize, $ShadowSize, #fff);
+  }
+}
+.listslide .filmstrip {
+  margin-left:0;
+  text-align: center;
+}
+.listslide ul {
+  white-space: nowrap;
+  display: inline-block;
+}
+.listslide li {
+  display: inline-block;
+  vertical-align: middle;
+}
+.customer-list li {
+  max-width: 100px;
+  padding: 20px;
+  height: 50px;
+}
+
+.cq-editmode .listslide ul {
+  display:block;
+  @include clearfix();
+}
+.logo-list-item-comp {
+  float:left;
+}
