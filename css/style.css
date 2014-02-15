@@ -1,3 +1,4 @@
+/* font used to avoid spacing issue for inline-block */
 @font-face {
   font-family: 'NoSpace';
   src: url("components/zerowidthspaces.eot");
@@ -30,25 +31,22 @@
     -moz-box-shadow: 0 0 80px 80px white !important;
     -o-box-shadow: 0 0 80px 80px white !important;
     box-shadow: 0 0 80px 80px white !important; }
-
-.listslide .filmstrip {
-  margin-left: 0;
-  text-align: center; }
-
-.listslide ul {
-  white-space: nowrap;
-  *display: inline;
-  display: inline-block;
-  font-family: NoSpace; }
-
-.listslide li {
-  *display: inline;
-  display: inline-block;
-  vertical-align: middle;
-  font-family: NoSpace; }
+  .listslide .filmstrip {
+    margin-left: 0;
+    text-align: center; }
+  .listslide ul {
+    white-space: nowrap;
+    *display: inline;
+    display: inline-block;
+    font-family: NoSpace; }
+  .listslide li {
+    *display: inline;
+    display: inline-block;
+    vertical-align: middle;
+    font-family: NoSpace; }
 
 /* specific to skin */
-.customer-list li {
+.listslide li {
   max-width: 100px;
   padding: 20px;
   height: 50px; }
