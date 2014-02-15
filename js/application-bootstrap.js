@@ -15,7 +15,7 @@ function initializeApplication()
     }
     //setup list slide
     $('.listslide').listslide({
-      pauseInterval: 2000,
+      pauseInterval: 3000,
       slideSpeed: 1000
     });
 }

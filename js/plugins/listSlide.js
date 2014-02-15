@@ -5,8 +5,8 @@ if (typeof jQuery === "undefined") {
 (function($){
   var listSlideObj = {
       options: {
-        liWidth: 140, //should be width of your li's
-        offsetVal: 4, //if the liwidth needs tweaking use this
+        liWidth: 100, //should be width of your li's
+        offsetVal: 0, //if the liwidth needs tweaking use this
         liSelector: 'li',
         ulSelector: 'ul',
         filmstripSelector: '.filmstrip',
@@ -36,6 +36,7 @@ if (typeof jQuery === "undefined") {
       this.$clone = ''; //store a value for the cloned ul element
       this._duplicateList( this.ulEl ); //for seamless restart
       this._populatePosArr(this.liArr); //populate array of move values
+      console.log(this.ulElWidth);
 
       //bind resize event that only fires once on resize end.
       //this does require ben allmans jquery-throttle-debounce plugin

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'NoSpace';
+  src: url("components/zerowidthspaces.eot");
+  src: url("components/zerowidthspaces.eot?#iefix") format("embedded-opentype"), url("components/zerowidthspaces.woff") format("woff"), url("components/zerowidthspaces.ttf") format("truetype"), url("components/zerowidthspaces.svg#NoSpace") format("svg"); }
+
 .listslide {
   overflow: hidden;
   min-width: 300px;
@@ -32,28 +37,21 @@
 
 .listslide ul {
   white-space: nowrap;
-  display: inline-block; }
+  *display: inline;
+  display: inline-block;
+  font-family: NoSpace; }
 
 .listslide li {
+  *display: inline;
   display: inline-block;
-  vertical-align: middle; }
+  vertical-align: middle;
+  font-family: NoSpace; }
 
+/* specific to skin */
 .customer-list li {
   max-width: 100px;
   padding: 20px;
   height: 50px; }
-
-.cq-editmode .listslide ul {
-  display: block;
-  *zoom: 1; }
-  .cq-editmode .listslide ul:before, .cq-editmode .listslide ul:after {
-    content: " ";
-    display: table; }
-  .cq-editmode .listslide ul:after {
-    clear: both; }
-
-.logo-list-item-comp {
-  float: left; }
 
 /* ==========================================================================
    Helper classes

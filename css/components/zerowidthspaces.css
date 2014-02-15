@@ -1,0 +1,8 @@
+@font-face{ 
+	font-family: 'NoSpace';
+	src: url('./zerowidthspaces.eot');
+	src: url('./zerowidthspaces.eot?#iefix') format('embedded-opentype'),
+	     url('./zerowidthspaces.woff') format('woff'),
+	     url('./zerowidthspaces.ttf') format('truetype'),
+	     url('./zerowidthspaces.svg#NoSpace') format('svg');
+}
