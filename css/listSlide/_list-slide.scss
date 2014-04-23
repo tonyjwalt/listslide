@@ -1,5 +1,3 @@
-$ShadowSize: 80px;
-
 .listslide {
   overflow: hidden;
   min-width: 300px;
@@ -12,22 +10,18 @@ $ShadowSize: 80px;
   text-align: center;
   }
 
-  ul {
+  ul, li {
     margin:0;
     padding:0;
-    white-space: nowrap;
     *display: inline;
     display: inline-block;
   }
 
-  li {
-    margin:0;
-    padding:0;
-    vertical-align: middle;
-    *display: inline;
-    display: inline-block;
-  }
+  ul { white-space: nowrap; }
+  li { vertical-align: middle; }
 
+  // Feathering on edges
+  $ShadowSize: 80px;
   &:before, &:after {
     display: block;
     content: " ";

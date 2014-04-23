@@ -6,7 +6,6 @@ if (typeof jQuery === "undefined") {
   var listSlideObj = {
       options: {
         liWidth: 105, //should be width of your li's - calc this
-        offsetVal: 4, //if the liwidth needs tweaking use this - calc this
         liSelector: 'li',
         ulSelector: 'ul',
         filmstripSelector: '.filmstrip',
@@ -23,21 +22,40 @@ if (typeof jQuery === "undefined") {
     _init: function() {
       var self = this,
         $window = $( window );
+      // -- Store variables -- //
       this.currentLI = 0; //start the list at 0
+      this.slideTimer = null; //timer to move playhead
+      this.$clone = null; //store a value for the cloned ul element
+      this.isEnabled = false; //track if the slider is enabled
+      this.isSliding = false; //track if the slider is actively sliding
+      this.userStopped = false; //track if the user asked the slider to stop (so it doesn't reenable on resize by accident)
       this.listPosArr = []; //array to cache filmstrip positions. need to redo if those LIs have flexible width
       this.$filmStrip = this.element.find(this.options.filmstripSelector);  //store the filmstrip
       this.ulEl = this.$filmStrip.find(this.options.ulSelector); //store the ul
       this.liArr = this.ulEl.find(this.options.liSelector); //cache the lis in an array
-      this.slideTimer = null; //timer to move playhead
-      this.isEnabled = false; //track if the slider is enabled
-      this.isSliding = false; //track if the slider is actively sliding
-      this.userStopped = false; //track if the user asked the slider to stop (so it doesn't reenable on resize by accident)
-      this.ulElWidth = (this.options.liWidth + this.options.offsetVal) * this.liArr.length; //store the ul's width for quicker size checking, again, assuming this isn't dynamic
-      this.$clone = ''; //store a value for the cloned ul element
+
+      // -- Calc Widths -- //
+      this.ulElWidth = this.ulEl.outerWidth(); //store the ul's width for quicker size checking, again, assuming this isn't dynamic
+
+
+      // populate array of li sizes, calc the offest, set margin left vals
+      var liSize = 0
+      for (var i=0; i<this.liArr.length; i++) {
+        liSize += $(this.liArr[i]).outerWidth();
+      }
+      this.calcOffsetVal = Math.round((this.ulElWidth - liSize) / this.liArr.length); // 3.6
+      var temp = -this.calcOffsetVal+'px';
+      $(this.liArr).each(function (index, val) {
+        if (index>0) {
+          $(this).css('margin-left', temp)
+        }
+      });
+
+
       this._duplicateList( this.ulEl ); //for seamless restart
       this._populatePosArr(this.liArr); //populate array of move values
-      console.log(this.ulElWidth);
 
+      // -- Bind Events -- //
       //bind resize event that only fires once on resize end.
       //this does require ben allmans jquery-throttle-debounce plugin
       $window.on('resize', $.debounce( 250, function () {
@@ -50,7 +68,7 @@ if (typeof jQuery === "undefined") {
       }
     },
     _duplicateList: function ($list) {
-      this.$clone = $list.clone().addClass( this.options.duplicateListClass );
+      this.$clone = $list.clone().addClass( this.options.duplicateListClass ).css('margin-left', '-4px');
       this.$cloneTwo = this.$clone.clone();
       if (this._checkSize()) {
         this.$clone.hide();
@@ -63,10 +81,11 @@ if (typeof jQuery === "undefined") {
         lSize = this.options.liWidth,
         arrLen = liArr.length * 2;
       for (; i<arrLen; i++) {
-        this.listPosArr.push( - ( i * ( lSize + this.options.offsetVal ) ) );
+        this.listPosArr.push( - ( i * lSize ) );
       }
     },
     _getIttr: function () {
+      // how far will we moved based on the number of elements fitting on the screen.
       var elWidth = this.element.width(),
       moveVal = Math.floor( elWidth / this.options.liWidth ) - 1;
       return moveVal;

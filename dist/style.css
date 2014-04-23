@@ -7,18 +7,15 @@
   .listslide .filmstrip {
     margin-left: 0;
     text-align: center; }
+  .listslide ul, .listslide li {
+    margin: 0;
+    padding: 0;
+    *display: inline;
+    display: inline-block; }
   .listslide ul {
-    margin: 0;
-    padding: 0;
-    white-space: nowrap;
-    *display: inline;
-    display: inline-block; }
+    white-space: nowrap; }
   .listslide li {
-    margin: 0;
-    padding: 0;
-    vertical-align: middle;
-    *display: inline;
-    display: inline-block; }
+    vertical-align: middle; }
   .listslide:before, .listslide:after {
     display: block;
     content: " ";

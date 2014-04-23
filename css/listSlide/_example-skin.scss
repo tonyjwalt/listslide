@@ -4,6 +4,8 @@
   padding: 20px;
   min-height: 50px;
   position: relative;
+
+  // Colors the LI space and padding for easy debugging
   &:before, &:after {
     display: block;
     content: " ";
