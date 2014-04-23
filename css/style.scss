@@ -1,10 +1,6 @@
-//libaries
-@import 'libs/_variables';
-@import 'libs/_mixins';
+// -- globals -- //
+@import '_mixins';
 
-//components
-@import "components/_list-slide";
-
-//helpers
-@import "libs/_helper-styles";
-
+// -- ListSlide files -- //
+@import "listSlide/_list-slide";
+@import "listSlide/_example-skin";

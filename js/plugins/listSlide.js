@@ -5,8 +5,8 @@ if (typeof jQuery === "undefined") {
 (function($){
   var listSlideObj = {
       options: {
-        liWidth: 100, //should be width of your li's
-        offsetVal: 0, //if the liwidth needs tweaking use this
+        liWidth: 105, //should be width of your li's - calc this
+        offsetVal: 4, //if the liwidth needs tweaking use this - calc this
         liSelector: 'li',
         ulSelector: 'ul',
         filmstripSelector: '.filmstrip',
