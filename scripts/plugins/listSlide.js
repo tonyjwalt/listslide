@@ -1,6 +1,7 @@
 //TODO
 // - redo "getIttr" function for actual calcs
 // - remove options.liwidth
+// - add nav buttons
 
 
 //Using "Transition" from "Transit". If not Transit, use "animate"
@@ -35,7 +36,6 @@ if (typeof jQuery === "undefined") {
       this.isEnabled = false; //track if the slider is enabled
       this.isSliding = false; //track if the slider is actively sliding
       this.userStopped = false; //track if the user asked the slider to stop (so it doesn't reenable on resize by accident)
-      this.listPosArr = []; //array to cache filmstrip positions. need to redo if those LIs have flexible width
       this.listPosArrNew = []; //array to cache filmstrip positions. need to redo if those LIs have flexible width
       this.$filmStrip = this.element.find(this.options.filmstripSelector);  //store the filmstrip
       this.$ulEl = this.$filmStrip.find(this.options.ulSelector); //store the ul
@@ -43,6 +43,7 @@ if (typeof jQuery === "undefined") {
 
       //cache the lis in an array
       this.$liArr = [];
+      this.liSizeArr = [];
       $(this.options.liSelector, this.$ulEl).each( function () {
         self.$liArr.push($(this));
       });
@@ -99,6 +100,10 @@ if (typeof jQuery === "undefined") {
     },
     _getIttr: function () {
       // how far will we moved based on the number of elements fitting on the screen.
+
+      //how big is the main element?
+      // take current position, find in width array, keep adding values of array items and add to counter until hit element width
+      // return final counter val
       var elWidth = this.element.width(),
       moveVal = Math.floor( elWidth / this.options.liWidth ) - 1;
       return moveVal;
