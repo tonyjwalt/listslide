@@ -1,3 +1,8 @@
+//TODO
+// - redo "getIttr" function for actual calcs
+// - remove options.liwidth
+
+
 //Using "Transition" from "Transit". If not Transit, use "animate"
 if (typeof jQuery === "undefined") {
   throw "This widget requires jquery module to be loaded";
@@ -24,36 +29,26 @@ if (typeof jQuery === "undefined") {
         $window = $( window );
       // -- Store variables -- //
       this.currentLI = 0; //start the list at 0
+      this.calcOffsetVal = 0; //store a value to use for the inline-block offset
       this.slideTimer = null; //timer to move playhead
       this.$clone = null; //store a value for the cloned ul element
       this.isEnabled = false; //track if the slider is enabled
       this.isSliding = false; //track if the slider is actively sliding
       this.userStopped = false; //track if the user asked the slider to stop (so it doesn't reenable on resize by accident)
       this.listPosArr = []; //array to cache filmstrip positions. need to redo if those LIs have flexible width
+      this.listPosArrNew = []; //array to cache filmstrip positions. need to redo if those LIs have flexible width
       this.$filmStrip = this.element.find(this.options.filmstripSelector);  //store the filmstrip
-      this.ulEl = this.$filmStrip.find(this.options.ulSelector); //store the ul
-      this.liArr = this.ulEl.find(this.options.liSelector); //cache the lis in an array
+      this.$ulEl = this.$filmStrip.find(this.options.ulSelector); //store the ul
+      this.ulElWidth = this.$ulEl.outerWidth(); //store the ul's width for quicker size checking, again, assuming this isn't dynamic
 
-      // -- Calc Widths -- //
-      this.ulElWidth = this.ulEl.outerWidth(); //store the ul's width for quicker size checking, again, assuming this isn't dynamic
-
-
-      // populate array of li sizes, calc the offest, set margin left vals
-      var liSize = 0
-      for (var i=0; i<this.liArr.length; i++) {
-        liSize += $(this.liArr[i]).outerWidth();
-      }
-      this.calcOffsetVal = Math.round((this.ulElWidth - liSize) / this.liArr.length); // 3.6
-      var temp = -this.calcOffsetVal+'px';
-      $(this.liArr).each(function (index, val) {
-        if (index>0) {
-          $(this).css('margin-left', temp)
-        }
+      //cache the lis in an array
+      this.$liArr = [];
+      $(this.options.liSelector, this.$ulEl).each( function () {
+        self.$liArr.push($(this));
       });
 
-
-      this._duplicateList( this.ulEl ); //for seamless restart
-      this._populatePosArr(this.liArr); //populate array of move values
+      this._calcSizes();
+      this._duplicateList( this.$ulEl ); //for seamless restart
 
       // -- Bind Events -- //
       //bind resize event that only fires once on resize end.
@@ -67,22 +62,40 @@ if (typeof jQuery === "undefined") {
         this._slideStart();
       }
     },
+    _calcSizes: function () {
+      var liSize = 0,
+        len = this.$liArr.length,
+        tmpSize = 0,
+        tmpArrVal = 0,
+        tmpIndexVal = 0,
+        tmpSizeArr = [0];
+      // calc li widths
+      for (var i=0; i<len; i++) {
+        tmpSize = this.$liArr[i].outerWidth();
+        liSize += tmpSize;
+        tmpSizeArr.push(tmpSize);
+      }
+      // use actual ul with to determine offset
+      this.calcOffsetVal = - Math.round((this.ulElWidth - liSize) / (this.$liArr.length - 1)) + 'px';
+      // assign the offset val to close the gaps
+      for (var j=1; j<len; j++) {
+        this.$liArr[j].css('margin-left', this.calcOffsetVal);
+      }
+      // calc positional array
+      for (var k=0; k<(len * 2); k++) {
+        tmpIndexVal = (k>len) ? k - len : k;
+        this.listPosArrNew.push(tmpArrVal - tmpSizeArr[tmpIndexVal]);
+        tmpArrVal = this.listPosArrNew[k];
+      }
+    },
     _duplicateList: function ($list) {
-      this.$clone = $list.clone().addClass( this.options.duplicateListClass ).css('margin-left', '-4px');
-      this.$cloneTwo = this.$clone.clone();
+      this.$clone = $list.clone().addClass( this.options.duplicateListClass ).css('margin-left', this.calcOffsetVal);
+      this.$cloneTwo = this.$clone.clone().css('margin-left', 0);
       if (this._checkSize()) {
         this.$clone.hide();
         this.$cloneTwo.hide();
       }
       this.$filmStrip.append(this.$clone).append(this.$cloneTwo);
-    },
-    _populatePosArr: function (liArr) {
-      var i = 0,
-        lSize = this.options.liWidth,
-        arrLen = liArr.length * 2;
-      for (; i<arrLen; i++) {
-        this.listPosArr.push( - ( i * lSize ) );
-      }
     },
     _getIttr: function () {
       // how far will we moved based on the number of elements fitting on the screen.
@@ -113,11 +126,11 @@ if (typeof jQuery === "undefined") {
         toMove = (v) ? v : this._getIttr(),
         lookupVal = this.currentLI + toMove; // move margin-left to that value
 
-      this.$filmStrip.transition( {"margin-left": this.listPosArr[lookupVal]}, this.options.slideSpeed, function () {
+      this.$filmStrip.transition( {"margin-left": this.listPosArrNew[lookupVal]}, this.options.slideSpeed, function () {
         //if we moved into the duplicate array rewind the playhead
-        if (lookupVal >= self.liArr.length) {
-          var newval = lookupVal - self.liArr.length;
-          self.$filmStrip.css("margin-left", self.listPosArr[newval]);
+        if (lookupVal >= self.$liArr.length) {
+          var newval = lookupVal - self.$liArr.length;
+          self.$filmStrip.css("margin-left", self.listPosArrNew[newval]);
           self.currentLI = newval;
         } else {
           // set new current frame

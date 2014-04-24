@@ -1,0 +1,22 @@
+/* specific to skin */
+.listslide li {
+  max-width: 100px;
+  padding: 20px;
+  min-height: 50px;
+  position: relative; }
+  .listslide li:before, .listslide li:after {
+    display: block;
+    content: " ";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(209, 232, 56, 0.4); }
+  .listslide li:after {
+    background-color: #c1e9ff;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px; }
