@@ -1,5 +1,5 @@
-# listslide
-A carousel of items that is fully responsive
+# Listslide
+A carousel of horizontal list items that automatically slides the appropriate number of items across the screen based on screen width.
 
 ## Technology
 The styles are compiled to CSS, but the base code was written using SASS. This allows for variables, mixins, modularized CSS, and more. You can learn more about SASS at http://sass-lang.com/.
@@ -14,7 +14,11 @@ The styles are compiled to CSS, but the base code was written using SASS. This a
 + **styles** - Sass and CSS files
   + **example-skin** - the skin to show the example on the index page
   + **list-slide** - code to make the list-slide work
-+ **scripts** - Scripts
++ **scripts**
+  + **plugins** - contains the listslide plugin
+  + **vendor** - contains any scripts the plugin relies on
+  **application-bootstrap** - what is use to define the animation style for transit, and initiate the example list-slide
++ **index.html** - an example page showing the list-slide in action.
 
 ## Create a Build (using Terminal on a MAC)
 + Ensure you have Sass by opening terminal and typing: *sass -v*
@@ -22,7 +26,7 @@ The styles are compiled to CSS, but the base code was written using SASS. This a
 + Run: *sass --watch styles:styles*
 
 ## To Do
-** listslide.js **
+**listslide.js**
 + redo "getIttr" function for actual calcs
 + remove options.liwidth
 + add nav buttons?
