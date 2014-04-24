@@ -1,9 +1,3 @@
-//TODO
-// - redo "getIttr" function for actual calcs
-// - remove options.liwidth
-// - add nav buttons
-
-
 //Using "Transition" from "Transit". If not Transit, use "animate"
 if (typeof jQuery === "undefined") {
   throw "This widget requires jquery module to be loaded";
